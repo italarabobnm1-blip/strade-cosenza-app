@@ -153,10 +153,11 @@ function drawAll(){
 function popupHtml(r,p,i){
   const nav='https://www.google.com/maps/dir/?api=1&destination='+p.lat+','+p.lng;
   const foto='https://www.mapillary.com/app/?lat='+p.lat+'&lng='+p.lng+'&z=17&focus=map';
+  const sv='https://www.google.com/maps?layer=c&cbll='+p.lat+','+p.lng;
   let extra='';
   if(p.type=='issue'||p.type=='incrocio'){const s=statusOf(r,i);extra='<div style="margin-top:4px;font-size:11px;color:#ffb3b3">Stato: '+labelSt(s.st)+(s.who?' · '+s.who:'')+'</div>';}
   return '<div class="pop"><b>'+p.name+'</b><br><small style="color:#9fb4c8">'+r.name+'</small>'+extra+
-    '<div class="acts"><a class="nav" target="_blank" href="'+nav+'">🧭 Naviga</a><a class="nav" style="background:#6a1b9a" target="_blank" href="'+foto+'">📷 Foto</a></div></div>';
+    '<div class="acts"><a class="nav" target="_blank" href="'+nav+'">🧭 Naviga</a><a class="nav" style="background:#6a1b9a" target="_blank" href="'+foto+'">📷 Foto</a><a class="nav" style="background:#fb8c00" target="_blank" href="'+sv+'">👁️ Street View</a></div></div>';
 }
 
 // ---- UI ----
@@ -212,7 +213,8 @@ function openRoad(r){
     pts.forEach(({p,i})=>{
       const nav='https://www.google.com/maps/dir/?api=1&destination='+p.lat+','+p.lng;
       const foto='https://www.mapillary.com/app/?lat='+p.lat+'&lng='+p.lng+'&z=17&focus=map';
-      let ctrl='<a class="nav" target="_blank" href="'+nav+'" title="Naviga">🧭</a><a class="nav" style="background:#6a1b9a" target="_blank" href="'+foto+'" title="Foto stradali">📷</a>';
+      const sv='https://www.google.com/maps?layer=c&cbll='+p.lat+','+p.lng;
+      let ctrl='<a class="nav" target="_blank" href="'+nav+'" title="Naviga">🧭</a><a class="nav" style="background:#6a1b9a" target="_blank" href="'+foto+'" title="Foto stradali">📷</a><a class="nav" style="background:#fb8c00" target="_blank" href="'+sv+'" title="Google Street View">👁️</a>';
       if(t=='issue'||t=='incrocio'){const s=statusOf(r,i);
         ctrl='<button class="stbtn '+stCls(s.st)+'" onclick="event.stopPropagation();cycleSt(\''+r.id+'\','+i+')">'+labelSt(s.st)+'</button>'+ctrl;}
       h+='<div class="prow" onclick="flyTo('+p.lat+','+p.lng+')"><span class="dot '+p.type+'"></span>'+
