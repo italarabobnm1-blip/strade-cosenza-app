@@ -166,7 +166,6 @@ function statusOf(r,i){return LS[keyOf(r,i)]||{st:'todo',who:''};}
 // ---- collegamenti esterni e foto ----
 const thumbUrl=h=>'foto/'+h+'_t.jpg', fotoUrl=h=>'foto/'+h+'.jpg';
 function navUrl(p){return 'https://www.google.com/maps/dir/?api=1&destination='+p.lat+','+p.lng;}
-function mapillaryUrl(p){return 'https://www.mapillary.com/app/?lat='+p.lat+'&lng='+p.lng+'&z=17&focus=map';}
 // se nel KML era salvata una vista Street View apre esattamente quella (stesso panorama, direzione e inclinazione)
 function svUrl(p){
   const s=p.sv&&p.sv[0];
@@ -217,7 +216,7 @@ function popupHtml(r,p,i){
   if(p.type=='issue'||p.type=='incrocio'){const s=statusOf(r,i);extra='<div style="margin-top:4px;font-size:11px;color:#ffb3b3">Stato: '+labelSt(s.st)+(s.who?' · '+esc(s.who):'')+'</div>';}
   return '<div class="pop"><b>'+esc(p.name)+'</b><br><small style="color:#9fb4c8">'+esc(r.name)+'</small>'+
     (p.note?'<br><small style="color:#cfe0ee">'+esc(p.note)+'</small>':'')+extra+thumbsHtml(r,i,p)+
-    '<div class="acts"><a class="nav" target="_blank" href="'+navUrl(p)+'">🧭 Naviga</a><a class="nav" style="background:#6a1b9a" target="_blank" href="'+mapillaryUrl(p)+'">📷 Mapillary</a><a class="nav" style="background:#fb8c00" target="_blank" href="'+svUrl(p)+'">👁️ Street View</a></div></div>';
+    '<div class="acts"><a class="nav" target="_blank" href="'+navUrl(p)+'">🧭 Naviga</a><a class="nav" style="background:#fb8c00" target="_blank" href="'+svUrl(p)+'">👁️ Street View</a></div></div>';
 }
 
 // ---- UI ----
@@ -281,7 +280,7 @@ function openRoad(r){
     if(!pts.length)return;
     h+='<div style="font-size:12px;color:#8ba0b4;margin:12px 4px 4px;font-weight:700">'+lab+' ('+pts.length+')</div>';
     pts.forEach(({p,i})=>{
-      let ctrl='<a class="nav" target="_blank" href="'+navUrl(p)+'" title="Naviga">🧭</a><a class="nav" style="background:#6a1b9a" target="_blank" href="'+mapillaryUrl(p)+'" title="Foto stradali (Mapillary)">📷</a><a class="nav" style="background:#fb8c00" target="_blank" href="'+svUrl(p)+'" title="Google Street View">👁️</a>';
+      let ctrl='<a class="nav" target="_blank" href="'+navUrl(p)+'" title="Naviga">🧭</a><a class="nav" style="background:#fb8c00" target="_blank" href="'+svUrl(p)+'" title="Google Street View">👁️</a>';
       const st=(t=='issue'||t=='incrocio')?statusOf(r,i):null;
       if(st)ctrl='<button class="stbtn '+stCls(st.st)+'" onclick="event.stopPropagation();cycleSt(\''+r.id+'\','+i+')">'+labelSt(st.st)+'</button>'+ctrl;
       h+='<div class="prow" onclick="flyTo('+p.lat+','+p.lng+')"><span class="dot '+p.type+'"></span>'+
